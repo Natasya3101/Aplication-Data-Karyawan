@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,23 +58,36 @@
                     <td th:text="${stat.index + 1}"></td>
                     <td th:text="${karyawan.nik}"></td>
                     <td th:text="${karyawan.namaLengkap}"></td>
-                    <td th:text="${karyawan.umur}"></td>
+                    <td >- tahun</td>
                     <td th:text="${#dates.format(karyawan.tanggalLahir, 'dd-MM-yyyy')}"></td>
                     <td th:text="${karyawan.jenisKelamin}"></td>
                     <td th:text="${karyawan.alamat}"></td>
                     <td th:text="${karyawan.negara}"></td>
                     <td>
-                        <a class="btn btn-primary btn-sm" th:href="@{/karyawan/edit/{nik}(nik=${karyawan.nik})}">Details</a>
-                        <a class="btn btn-primary btn-sm" th:href="@{/karyawan/edit/{nik}(nik=${karyawan.nik})}">Edit</a>
-                        <a class="btn btn-danger btn-sm" 
+                        <button class="btn btn-primary btn-sm" th:href="@{/karyawan/edit/{nik}(nik=${karyawan.nik})}">Details</button>
+                        <button class="btn btn-primary btn-sm" th:href="@{/karyawan/edit/{nik}(nik=${karyawan.nik})}">Edit</>
+                        <button class="btn btn-danger btn-sm" 
                            th:href="@{/karyawan/delete/{nik}(nik=${karyawan.nik})}" 
-                           onclick="return confirm('Anda yakin menghapus data ' + '${karyawan.namaLengkap}' + ' ?');">Delete</a>
+                           th:onclick="'return showConfirmation(' + ${karyawan.namaLengkap} + ');'">Delete</button>
                     </td>
                 </tr>
+                <!-- <tr th:each="k, stat : ${karyawans}">
+                    <td th:text="${stat.index + 1}"></td>
+                    <td th:text="${k.nik}"></td>
+                    <td th:text="${k.namaLengkap}"></td> -->
+                    <!-- <td th:text="${#dates.format(k.tanggalLahir, 'dd-MM-yyyy')}"></td> -->
+                    <!-- <td th:text="${k.jenisKelamin}"></td> -->
+                    <!-- <td th:text="${k.alamat}"></td> -->
+                    <!-- <td th:text="${k.negara}"></td> -->
+                <!-- </tr> -->
             </tbody>
         </table>
         
     </div>
-
+    <script type="text/javascript">
+        function showConfirmation(nama) {
+            return confirm(`Anda Yakin Menghapus Data ${nama}`);
+        }
+    </script>
 </body>
 </html>

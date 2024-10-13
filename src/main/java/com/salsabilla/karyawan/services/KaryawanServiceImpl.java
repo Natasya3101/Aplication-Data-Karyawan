@@ -6,7 +6,7 @@ import com.salsabilla.karyawan.models.Karyawan;
 import com.salsabilla.karyawan.repositorys.KaryawanRepository;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class KaryawanServiceImpl implements KaryawanService {
@@ -37,27 +37,16 @@ public class KaryawanServiceImpl implements KaryawanService {
         return karyawanRepository.findAll();
     }
 
-    @Override
-public String editKaryawan(Long nik, Karyawan karyawan) {
-    // Mencari karyawan berdasarkan NIK
-    Karyawan existingKaryawan = karyawanRepository.findKaryawanByNik(nik);
     
-    // Mengupdate data karyawan
-    existingKaryawan.setNamaLengkap(karyawan.getNamaLengkap());
-    existingKaryawan.setJenisKelamin(karyawan.getJenisKelamin());
-    existingKaryawan.setTanggalLahir(karyawan.getTanggalLahir());
-    existingKaryawan.setAlamat(karyawan.getAlamat());
-    existingKaryawan.setNegara(karyawan.getNegara());
-
-    // Menyimpan perubahan
-    karyawanRepository.save(existingKaryawan);
-
-    return "Sukses Edit Karyawan";
-}
+    @Override
+    public String editKaryawan(Karyawan karyawan) {
+        karyawanRepository.save(karyawan);
+        return "Sukses Edit Karyawan";
+    }
 
 
     @Override
-    public Optional<Karyawan> getKaryawanByNik(Long nik) {
-        return karyawanRepository.findById(nik);
+    public Karyawan getKaryawan(Long nik) {
+        return karyawanRepository.findKaryawanByNik(nik);
     }
 }

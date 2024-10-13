@@ -1,7 +1,10 @@
 package com.salsabilla.karyawan.models;
 
 
-import java.util.Date;
+import java.time.LocalDate;
+
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
@@ -33,7 +36,7 @@ public class Karyawan {
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE) // Date field for Tanggal Lahir
-    private Date tanggalLahir;
+    private LocalDate tanggalLahir;
 
     @Lob // Text Area for Alamat (long text)
     @Column(nullable = false)

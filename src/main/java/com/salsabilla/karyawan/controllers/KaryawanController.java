@@ -1,61 +1,82 @@
 package com.salsabilla.karyawan.controllers;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RestController;
+
+
 
 import com.salsabilla.karyawan.models.Karyawan;
 import com.salsabilla.karyawan.services.KaryawanService;
 
 
-
-@RequestMapping("/karyawan")
-@RestController
+@Controller
 public class KaryawanController {
-    
-    @Autowired
-    private KaryawanService karyawanService;
+    @Autowired KaryawanService karyawanService;
 
-    // Menambahkan karyawan
-    @PostMapping("/add")
-    public String addKaryawan(@RequestBody Karyawan karyawan) {
-        return karyawanService.addKaryawan(karyawan);
+    // Halaman Awal
+    @GetMapping
+    public String showKaryawanPage(Model model) {
+        List<Karyawan> karyawans = karyawanService.getAll();
+        model.addAttribute("karyawans", karyawans);
+        return "index"; // Menampilkan halaman karyawan.html
     }
 
-    // Menghapus karyawan berdasarkan NIK
-    @DeleteMapping("{nik}")
-    public String deleteKaryawan(@PathVariable Long nik) {
-        return karyawanService.deleteKaryawan(nik);
-    }
-
-    // Mengambil semua data karyawan
     @GetMapping("/getAll")
     public List<Karyawan> getAll() {
         return karyawanService.getAll();
     }
-   
+
+     // Menambahkan karyawan
+    @GetMapping("/add-karyawan")
+    public String addKaryawanPage(Model model) {
+        model.addAttribute("karyawan", new Karyawan());
+        return "tambah";
+    }
+     // Menambahkan karyawan
+    @PostMapping("/add")
+    public String addKaryawan(Karyawan karyawan) {
+        System.out.println(karyawan);
+        karyawanService.addKaryawan(karyawan);
+        return "redirect:/";
+    }
     
-    // Mengedit data karyawan berdasarkan NIK
-    @PutMapping("edit/{nik}")
-    public String editKaryawan(@PathVariable Long nik, @RequestBody Karyawan karyawan) {
-        return karyawanService.editKaryawan(nik, karyawan);
+    
+
+    //Page edit data karyawan berdasarkan NIK
+    @GetMapping("edit/{nik}")
+    public String editKaryawanPage(@PathVariable Long nik, Model model) {
+        model.addAttribute("editKaryawan", karyawanService.getKaryawan(nik));
+        return "edit";
+    }
+    // Mengedit data karyawan
+    @PostMapping("/edit")
+    public String editKaryawan(Karyawan karyawan){
+        System.out.println(karyawan);
+        karyawanService.editKaryawan(karyawan);
+        return "redirect:/";
     }
 
-    // Mengambil data karyawan berdasarkan NIK
-    @GetMapping("{nik}")
-    public Optional<Karyawan> getKaryawanByNik(@PathVariable Long nik) {
-        return karyawanService.getKaryawanByNik(nik);
+    // detail 
+    @GetMapping("detail/{nik}")
+    public String detailKaryawanPage(@PathVariable Long nik, Model model) {
+        model.addAttribute("detail", karyawanService.getKaryawan(nik));
+        return "detail";
+    }
+
+    // Menghapus karyawan berdasarkan NIK
+    @DeleteMapping("/delete/{nik}")
+    public String deleteKaryawan(@PathVariable Long nik) {
+        System.out.println(nik);
+        karyawanService.deleteKaryawan(nik);
+        return "redirect:/";
     }
 }
-

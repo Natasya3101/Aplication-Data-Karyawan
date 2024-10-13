@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -9,12 +8,34 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
-        .action-buttons a {
-            margin-right: 8px;
+        /* Styling untuk memperkecil ukuran tabel */
+        table {
+            font-size: 0.85rem;
+            justify-content: center;
         }
-        .action-buttons a.delete {
-            color: red;
+        table th, table td {
+            padding: 0.4rem 0.6rem;
+            justify-content: center;
         }
+        table th {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1000px;
+        }
+        .card {
+            font-size: 0.9rem;
+        }
+
+        
+        button {
+            padding: 8px 8px;
+            font-size: 14px;
+            gap: 5px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
     </style>
 </head>
 <body>
@@ -34,12 +55,12 @@
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary" id="searchButton">Search</button>
-                    <button type="button" class="btn btn-secondary" id="addButton">Add</button>
+                    <a type="button" class="btn btn-secondary" th:href="@{/add-karyawan}">Add</a>
                 </form>
             </div>
         </div>
 
-        <table class="table table-bordered mt-4">
+        <table class="table table-bordered mt-2 table-sm">
             <thead>
                 <tr>
                     <th>No</th>
@@ -58,36 +79,95 @@
                     <td th:text="${stat.index + 1}"></td>
                     <td th:text="${karyawan.nik}"></td>
                     <td th:text="${karyawan.namaLengkap}"></td>
-                    <td >- tahun</td>
-                    <td th:text="${#dates.format(karyawan.tanggalLahir, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${T(java.time.Period).between(karyawan.tanggalLahir, T(java.time.LocalDate).now()).years} + ' tahun'"></td>
+                    <td th:text="${karyawan.tanggalLahir.format(T(java.time.format.DateTimeFormatter).ofPattern('dd-MM-yyyy'))}"></td>
                     <td th:text="${karyawan.jenisKelamin}"></td>
                     <td th:text="${karyawan.alamat}"></td>
                     <td th:text="${karyawan.negara}"></td>
                     <td>
-                        <button class="btn btn-primary btn-sm" th:href="@{/karyawan/edit/{nik}(nik=${karyawan.nik})}">Details</button>
-                        <button class="btn btn-primary btn-sm" th:href="@{/karyawan/edit/{nik}(nik=${karyawan.nik})}">Edit</>
+                        <a class="btn btn-primary btn-sm" th:href="@{/detail/{nik}(nik=${karyawan.nik})}">Details</a>
+                        <a class="btn btn-warning btn-sm" th:href="@{/edit/{nik}(nik=${karyawan.nik})}">Edit</a>
                         <button class="btn btn-danger btn-sm" 
-                           th:href="@{/karyawan/delete/{nik}(nik=${karyawan.nik})}" 
-                           th:onclick="'return showConfirmation(' + ${karyawan.namaLengkap} + ');'">Delete</button>
+                        th:data-nik="${karyawan.nik}"
+                        th:data-nama-lengkap="${#strings.escapeJavaScript(karyawan.namaLengkap)}"
+                        onclick=showConfirmation(this)>Delete</button>
                     </td>
                 </tr>
-                <!-- <tr th:each="k, stat : ${karyawans}">
-                    <td th:text="${stat.index + 1}"></td>
-                    <td th:text="${k.nik}"></td>
-                    <td th:text="${k.namaLengkap}"></td> -->
-                    <!-- <td th:text="${#dates.format(k.tanggalLahir, 'dd-MM-yyyy')}"></td> -->
-                    <!-- <td th:text="${k.jenisKelamin}"></td> -->
-                    <!-- <td th:text="${k.alamat}"></td> -->
-                    <!-- <td th:text="${k.negara}"></td> -->
-                <!-- </tr> -->
             </tbody>
         </table>
         
+        
+        
+        
+        
+        
+        
     </div>
+    
     <script type="text/javascript">
-        function showConfirmation(nama) {
-            return confirm(`Anda Yakin Menghapus Data ${nama}`);
+        function showConfirmation(element) {
+            const nik = element.dataset.nik;
+        const namaLengkap = element.dataset.namaLengkap;
+
+        if (confirm(`Anda yakin menghapus data ${namaLengkap}?`)) {
+          fetch(`/delete/${nik}`, {
+            method: "DELETE",
+          }).then((response) => {
+            window.location.href = "/";
+          });
         }
+      }
+
+        // Fungsi pencarian berdasarkan input NIK atau Nama
+        function search() {
+            const nik = document.getElementById("nik").value.toLowerCase();
+            const nama = document.getElementById("nama").value.toLowerCase();
+            const rows = document.querySelectorAll("#dataTable tr");
+
+            rows.forEach(row => {
+                const rowNIK = row.cells[1].textContent.toLowerCase();
+                const rowNama = row.cells[2].textContent.toLowerCase();
+
+                // Jika input NIK atau Nama ada, lakukan filter
+                if ((nik && !rowNIK.includes(nik)) || (nama && !rowNama.includes(nama))) {
+                    row.style.display = "none"; 
+                } else {
+                    row.style.display = ""; 
+                }
+            });
+        }
+        
+
+        // Fungsi untuk reset tampilan tabel ketika input pencarian dikosongkan
+        function resetTable() {
+            const rows = document.querySelectorAll("#dataTable tr");
+            rows.forEach(row => row.style.display = ""); // Tampilkan semua baris
+        }
+
+        // Event listener untuk tombol "Search"
+        document.getElementById("searchButton").addEventListener("click", search);
+
+        // Event listener untuk input pada NIK
+        document.getElementById("nik").addEventListener("input", function() {
+            if (!this.value && !document.getElementById("nama").value) {
+                resetTable(); // Tampilkan semua baris jika input NIK dan Nama kosong
+            }
+        });
+
+        // Event listener untuk input pada Nama
+        document.getElementById("nama").addEventListener("input", function() {
+            if (!this.value && !document.getElementById("nik").value) {
+                resetTable(); // Tampilkan semua baris jika input NIK dan Nama kosong
+            }
+        });
+
+       
+
+      
+
+      
+      
+        
     </script>
 </body>
 </html>

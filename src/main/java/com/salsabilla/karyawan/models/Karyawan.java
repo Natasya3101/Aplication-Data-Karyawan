@@ -42,6 +42,9 @@ public class Karyawan {
     @Column(nullable = false)
     private String alamat;
 
+    @Column(nullable = false)
+    private String warna;
+
     @Column(nullable = false, length = 50)
     private String negara; // Dropdown for Country
 }

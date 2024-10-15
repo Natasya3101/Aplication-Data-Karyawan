@@ -8,10 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import com.salsabilla.karyawan.models.Karyawan;
@@ -38,15 +38,22 @@ public class KaryawanController {
      // Menambahkan karyawan
     @GetMapping("/add-karyawan")
     public String addKaryawanPage(Model model) {
-        model.addAttribute("karyawan", new Karyawan());
+        model.addAttribute("karyawan", new Karyawan()); 
         return "tambah";
     }
-     // Menambahkan karyawan
+
+    // Menambahkan karyawan
     @PostMapping("/add")
-    public String addKaryawan(Karyawan karyawan) {
-        System.out.println(karyawan);
-        karyawanService.addKaryawan(karyawan);
-        return "redirect:/";
+    public String addKaryawan(@ModelAttribute Karyawan karyawan,RedirectAttributes redirectAttributes, Model model) {
+        try {
+            karyawanService.addKaryawan(karyawan);
+            redirectAttributes.addFlashAttribute("successMessage", " Data Karyawan berhasil ditambahkan.");
+            return "redirect:/";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "tambah";
+        }
+        
     }
     
     
@@ -59,10 +66,17 @@ public class KaryawanController {
     }
     // Mengedit data karyawan
     @PostMapping("/edit")
-    public String editKaryawan(Karyawan karyawan){
+    public String editKaryawan(Karyawan karyawan, RedirectAttributes redirectAttributes, Model model){
         System.out.println(karyawan);
-        karyawanService.editKaryawan(karyawan);
-        return "redirect:/";
+        try {
+            karyawanService.editKaryawan(karyawan);
+            return "redirect:/";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "edit";
+        }
+        
+        
     }
 
     // detail 

@@ -6,7 +6,7 @@ import com.salsabilla.karyawan.models.Karyawan;
 import com.salsabilla.karyawan.repositorys.KaryawanRepository;
 
 import java.util.List;
-
+import java.time.LocalDate;
 
 @Service
 public class KaryawanServiceImpl implements KaryawanService {
@@ -15,12 +15,15 @@ public class KaryawanServiceImpl implements KaryawanService {
     private KaryawanRepository karyawanRepository;
 
     @Override
-    public String addKaryawan(Karyawan karyawan) {
+    public void addKaryawan(Karyawan karyawan) throws Exception{
         if (karyawanRepository.existsById(karyawan.getNik())) {
-            return "Karyawan dengan NIK " + karyawan.getNik() + " sudah ada.";
+            throw new Exception ( "Karyawan dengan NIK " + karyawan.getNik() + " sudah ada.");
+        }
+        if (!karyawan.getTanggalLahir().isBefore(LocalDate.now())) {
+            throw new Exception ("Tanggal lahir harus sebelum hari ini.");
         }
         karyawanRepository.save(karyawan);
-        return "Karyawan berhasil ditambahkan.";
+        
     }
 
     @Override

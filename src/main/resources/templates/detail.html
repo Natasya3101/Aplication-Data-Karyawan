@@ -11,96 +11,188 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
-        .card2 {
-            max-width: 350px;  
-            max-height: 530px; 
-            border: 1px solid black;
-            font-size: 14px;
-            overflow: hidden; /* Optional: hides any overflow content */
-        }
-        .form-group {
-            margin-bottom: 0.25rem; 
-            
-        }
+    .card2 {
+        max-width: 350px;
+        max-height: 650px;
+        border: 1px solid black;
+        font-size: 14px;
+        overflow: hidden; /* Optional: hides any overflow content */
+    }
+    .form-group {
+        margin-bottom: 0.25rem;
+    }
 
-        .form-control {
-            font-size: 14px; 
-            padding: 8px;
-             
-        }
+    .form-control {
+        font-size: 14px;
+        padding: 8px;
+    }
 
-        textarea {
-            resize: none; /* Prevent resizing the textarea */
-        }
-        button {
-            padding: 8px 8px;
-            font-size: 14px;
-            gap: 5px;
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-       
+    textarea {
+        resize: none; /* Prevent resizing the textarea */
+    }
 
+    button {
+        padding: 8px 8px;
+        font-size: 14px;
+        gap: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
     </style>
-  </head>
-  <body class="bg-light">
+    </head>
+    <body class="bg-light">
     <div class="container">
         <div class="card2 mt-5 mb-5">
-            <div class="card-body">
-                <h5 class="text-center mb-2">Data Karyawan</h5>
-                <form th:action="@{/detail}" method="post" enctype="multipart/form-data">
-                    <div class="form-group mb-2">
-                        <label for="nik">NIK</label>
-                        <input th:field="${detail.nik}" type="hidden" class="form-control" id="nik" name="nik"/>    
-                        <input type="text" th:field="${detail.nik}" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK" disabled />
-                    </div>
-                
-        
-                    <div class="form-group mb-2">
-                        <label for="nama">Nama Lengkap</label>
-                        <input type="text" th:field="${detail.namaLengkap}" class="form-control" id="nama" name="namaLengkap" disabled />
-                    </div>
-        
-                    <div class="form-group mb-2">
-                        <label for="kelamin">Jenis Kelamin</label>
-                        <div class="form-check">
-                            <input required class="form-check-input" type="radio" th:checked="${detail.jenisKelamin == 'Laki-laki'}" name="jenisKelamin" id="Laki-laki" value="Laki-laki" disabled />
-                            <label class="form-check-label" for="Laki-laki">Laki-laki</label>
-                        </div>
-                        <div class="form-check">
-                            <input required class="form-check-input" type="radio" th:checked="${detail.jenisKelamin == 'Perempuan'}" name="jenisKelamin" id="Perempuan" value="Perempuan" disabled />
-                            <label class="form-check-label" for="Perempuan">Perempuan</label>
-                        </div>
-                    </div>
-        
-                    <div class="form-group mb-2">
-                        <label for="ttl">Tanggal Lahir</label>
-                        <input type="date" th:value="${detail.tanggalLahir}" class="form-control" id="ttl" name="tanggalLahir" disabled />
-                    </div>
-        
-                    <div class="form-group mb-2">
-                        <label for="alamat">Alamat</label>
-                        <textarea class="form-control" th:text="${detail.alamat}" name="alamat" id="alamat" rows="2" disabled></textarea>
-                    </div>
-        
-                    <div class="form-group mb-2">
-                        <label for="negara">Negara</label>
-                        <select class="form-select" th:seleccted="${detail.negara}" name="negara" id="negara" disabled>
-                            <option value="Indonesia" th:selected="${detail.negara == 'Indonesia'}">Indonesia</option>
-                            <option value="Jepang" th:selected="${detail.negara == 'Jepang'}">Jepang</option>
-                            <option value="Korea" th:selected="${detail.negara == 'Korea'}">Korea</option>
-                            <option value="Malaysia" th:selected="${detail.negara == 'Malaysia'}">Malaysia</option>
-                        </select>
-                    </div>
-        
-                    <div class="form-group d-flex justify-content-between">
-                        <button type="button"
-                        class="btn btn-secondary"
-                        onclick="window.history.back()">Kembali</button>
-                    </div>
-                </form>
+        <div class="card-body">
+          <h5 class="text-center mb-2">Data Karyawan</h5>
+          <form
+            th:action="@{/detail}"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <div class="form-group mb-2">
+              <label for="nik">NIK</label>
+              <input
+                th:field="${detail.nik}"
+                type="hidden"
+                class="form-control"
+                id="nik"
+                name="nik"
+              />
+              <input
+                type="text"
+                th:field="${detail.nik}"
+                class="form-control"
+                id="nik"
+                name="nik"
+                placeholder="Masukkan NIK"
+                disabled
+              />
             </div>
+
+            <div class="form-group mb-2">
+              <label for="nama">Nama Lengkap</label>
+              <input
+                type="text"
+                th:field="${detail.namaLengkap}"
+                class="form-control"
+                id="nama"
+                name="namaLengkap"
+                disabled
+              />
+            </div>
+
+            <div class="form-group mb-2">
+              <label for="kelamin">Jenis Kelamin</label>
+              <div class="form-check">
+                <input
+                  required
+                  class="form-check-input"
+                  type="radio"
+                  th:checked="${detail.jenisKelamin == 'Laki-laki'}"
+                  name="jenisKelamin"
+                  id="Laki-laki"
+                  value="Laki-laki"
+                  disabled
+                />
+                <label class="form-check-label" for="Laki-laki"
+                  >Laki-laki</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  required
+                  class="form-check-input"
+                  type="radio"
+                  th:checked="${detail.jenisKelamin == 'Perempuan'}"
+                  name="jenisKelamin"
+                  id="Perempuan"
+                  value="Perempuan"
+                  disabled
+                />
+                <label class="form-check-label" for="Perempuan"
+                  >Perempuan</label
+                >
+              </div>
+            </div>
+
+            <div class="form-group mb-2">
+              <label for="ttl">Tanggal Lahir</label>
+              <input
+                type="date"
+                th:value="${detail.tanggalLahir}"
+                class="form-control"
+                id="ttl"
+                name="tanggalLahir"
+                disabled
+              />
+            </div>
+
+            <div class="form-group mb-2">
+              <label for="alamat">Alamat</label>
+              <textarea
+                class="form-control"
+                th:text="${detail.alamat}"
+                name="alamat"
+                id="alamat"
+                rows="2"
+                disabled
+              ></textarea>
+            </div>
+            <div class="form-group mb-2">
+                <label for="warna">Warna Kesukaan</label>
+                <select class="form-select" name="warna" id="warna" disabled>
+                  <option value="Biru" th:selected="${detail.warna == 'Biru'}">Biru</option>
+                  <option value="Merah" th:selected="${detail.warna == 'Merah'}">Merah</option>
+                  <option value="Kuning" th:selected="${detail.warna == 'Kuning'}">Kuning</option>
+                  <option value="Pink" th:selected="${detail.warna == 'Pink'}">Pink</option>
+                </select>
+              </div>
+            <div class="form-group mb-2">
+              <label for="negara">Negara</label>
+              <select
+                class="form-select"
+                th:seleccted="${detail.negara}"
+                name="negara"
+                id="negara"
+                disabled
+              >
+                <option
+                  value="Indonesia"
+                  th:selected="${detail.negara == 'Indonesia'}"
+                >
+                  Indonesia
+                </option>
+                <option
+                  value="Jepang"
+                  th:selected="${detail.negara == 'Jepang'}"
+                >
+                  Jepang
+                </option>
+                <option value="Korea" th:selected="${detail.negara == 'Korea'}">
+                  Korea
+                </option>
+                <option
+                  value="Malaysia"
+                  th:selected="${detail.negara == 'Malaysia'}"
+                >
+                  Malaysia
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group d-flex justify-content-between">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="window.history.back()"
+              >
+                Kembali
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

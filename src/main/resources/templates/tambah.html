@@ -14,13 +14,13 @@
         
         .card2 {
             max-width: 345px;  
-            max-height: 530px; 
+            max-height: 700px; 
             border: 1px solid black;
             font-size: 14px;
             overflow: hidden; /* Optional: hides any overflow content */
         }
         .form-group {
-            margin-bottom: 0.25rem; /* Reduce the bottom margin between form groups */
+            margin-bottom: 0.20rem; /* Reduce the bottom margin between form groups */
         }
 
         .form-control {
@@ -32,11 +32,10 @@
             resize: none; /* Prevent resizing the textarea */
         }
         button {
-            padding: 8px 8px;
-            font-size: 14px;
+            padding: 4px 4px;
+            font-size: 12px;
             gap: 5px;
-            margin-top: 5px;
-            margin-bottom: 5px;
+            margin-top: 3px;
         }
 
     </style>
@@ -46,6 +45,10 @@
         <div class="card2 mt-5 mb-5">
             <div class="card-body">
                 <h5 class="text-center mb-2">Tambah Data Karyawan</h5>
+                <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+                
                 <form th:action="@{/add}" method="post" enctype="multipart/form-data">
                     <div class="form-group mb-2">
                         <label for="nik">NIK</label>
@@ -78,7 +81,16 @@
                         <label for="alamat">Alamat</label>
                         <textarea class="form-control" name="alamat" id="alamat" rows="2" placeholder="Masukkan Alamat"></textarea>
                     </div>
-        
+                    <div class="form-group mb-2">
+                        <label for="warna">Warna Kesukaan</label>
+                        <select class="form-select" name="warna" id="warna">
+                            <option value="Biru">Biru</option>
+                            <option value="Merah">Merah</option>
+                            <option value="Kuning">Kuning</option>
+                            <option value="Pink">Pink</option>
+                        </select>
+
+                    </div>
                     <div class="form-group mb-2">
                         <label for="negara">Negara</label>
                         <select class="form-select" name="negara" id="negara">
@@ -88,7 +100,6 @@
                             <option value="Malaysia">Malaysia</option>
                         </select>
                     </div>
-        
                     <div class="form-group d-flex justify-content-between">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                         <button type="button"
@@ -100,4 +111,5 @@
         </div>
     </div>
 </body>
+
 </html>

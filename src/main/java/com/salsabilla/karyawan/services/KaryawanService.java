@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public interface KaryawanService {
-    String addKaryawan(Karyawan karyawan);
+    void addKaryawan (Karyawan karyawan) throws Exception;
     String deleteKaryawan(Long nik);
     List<Karyawan> getAll();
     String editKaryawan(Karyawan karyawan);

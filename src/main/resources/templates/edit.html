@@ -44,10 +44,12 @@
       <div class="card2 mt-5 mb-5">
         <div class="card-body">
           <h5 class="text-center mb-2">Data Karyawan</h5>
+          <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <p th:text="${errorMessage}"></p>
+            </div>
           <form
             id="editForm"
             th:action="@{/edit}"
-            th:object="${editKaryawan}"
             method="post"
             enctype="multipart/form-data"
           >
@@ -203,7 +205,7 @@
       </div>
     </div>
     <script type="text/javascript">
-      function showConfirmation(element) {
+      function showConfirmation(event) {
         event.preventDefault();
         const confirmed = confirm("Apakah Anda yakin ingin mengubah data ini?");
         if (confirmed) {

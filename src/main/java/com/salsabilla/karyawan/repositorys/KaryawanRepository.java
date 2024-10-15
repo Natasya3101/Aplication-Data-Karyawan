@@ -10,6 +10,8 @@ import com.salsabilla.karyawan.models.Karyawan;
 
 public interface KaryawanRepository extends JpaRepository<Karyawan, Long> {
     Karyawan findKaryawanByNik(Long nik);
+    // Boolean existsByNameAndIdNot()
+    
 }
 
     

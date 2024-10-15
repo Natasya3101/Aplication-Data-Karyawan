@@ -42,11 +42,13 @@ public class KaryawanServiceImpl implements KaryawanService {
 
     
     @Override
-    public String editKaryawan(Karyawan karyawan) {
-        karyawanRepository.save(karyawan);
-        return "Sukses Edit Karyawan";
-    }
+    public void editKaryawan(Karyawan karyawan) throws Exception {
+        if (!karyawan.getTanggalLahir().isBefore(LocalDate.now())) {
+            throw new Exception ("Tanggal lahir harus sebelum hari ini.");
+        }
+        karyawanRepository.saveAndFlush(karyawan);
 
+    }
 
     @Override
     public Karyawan getKaryawan(Long nik) {

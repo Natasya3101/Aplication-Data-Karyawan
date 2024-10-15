@@ -70,6 +70,7 @@ public class KaryawanController {
         System.out.println(karyawan);
         try {
             karyawanService.editKaryawan(karyawan);
+            redirectAttributes.addFlashAttribute("successMessage", " Data Karyawan berhasil diubah.");
             return "redirect:/";
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());

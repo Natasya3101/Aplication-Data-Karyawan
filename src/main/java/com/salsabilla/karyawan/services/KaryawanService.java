@@ -8,6 +8,6 @@ public interface KaryawanService {
     void addKaryawan (Karyawan karyawan) throws Exception;
     String deleteKaryawan(Long nik);
     List<Karyawan> getAll();
-    String editKaryawan(Karyawan karyawan);
+    void editKaryawan(Karyawan karyawan) throws Exception;
     Karyawan getKaryawan(Long nik);
 }

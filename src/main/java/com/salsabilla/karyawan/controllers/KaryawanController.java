@@ -73,8 +73,8 @@ public class KaryawanController {
             redirectAttributes.addFlashAttribute("successMessage", " Data Karyawan berhasil diubah.");
             return "redirect:/";
         } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            return "edit";
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/edit/" + karyawan.getNik();
         }
         
         
